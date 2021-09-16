@@ -51,6 +51,10 @@ public class Empleado implements Serializable {
     @Column(name = "tipo_vacuna")
     private String tipoVacuna;//Sputnik, AstraZeneca, Pfizer y Jhonson&Jhonson
 
+    @Column(name = "fecha_vacunacion")
+    @Temporal(TemporalType.DATE)
+    private Date fechaVacunacion;
+
     @Column(name = "numero_dosis")
     private String numeroDosis;
 
@@ -160,6 +164,14 @@ public class Empleado implements Serializable {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public Date getFechaVacunacion() {
+        return fechaVacunacion;
+    }
+
+    public void setFechaVacunacion(Date fechaVacunacion) {
+        this.fechaVacunacion = fechaVacunacion;
     }
 
     private static final long serialVersionUID = 1L;

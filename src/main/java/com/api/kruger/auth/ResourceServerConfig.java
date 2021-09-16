@@ -20,12 +20,15 @@ import org.springframework.web.filter.CorsFilter;
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private static final String[] AUTH_WHITELIST = {"/swagger-resources/**", "/swagger-ui.html", "/v2/api-docs",
-            "/webjars/**"};
+            "/webjars/**", "/api/swagger-ui/**","/swagger-ui/**", "/api/empleados/swagger-ui/**"};
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers(HttpMethod.GET, AUTH_WHITELIST).permitAll()
-//                .anyRequest().authenticated()
+        http.authorizeRequests()
+                .antMatchers(HttpMethod.GET, AUTH_WHITELIST).permitAll()
+                .antMatchers(HttpMethod.POST, AUTH_WHITELIST).permitAll()
+                .antMatchers(AUTH_WHITELIST).permitAll()
+                .anyRequest().authenticated()
                 .and().cors().configurationSource(corsConfigurationSource());
     }
 

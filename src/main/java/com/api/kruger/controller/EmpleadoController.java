@@ -23,13 +23,13 @@ public class EmpleadoController {
     @Autowired
     private IEmpleadoService empleadoService;
 
-    @Secured("ROLE_ADMIN")
+    @Secured({"ROLE_ADMIN", "permitAll"})
     @GetMapping("/empleados")
     public List<Empleado> index() {
         return empleadoService.findAll();
     }
 
-    @Secured({"ROLE_EMPLEADO", "ROLE_ADMIN"})
+    @Secured({"ROLE_EMPLEADO", "ROLE_ADMIN", "permitAll"})
     @GetMapping("/empleados/{id}")
     public ResponseEntity show(@PathVariable Integer id) {
         Map<String, Object> response = new HashMap<>();
@@ -49,7 +49,7 @@ public class EmpleadoController {
         return new ResponseEntity<Empleado>(empleadoActual, HttpStatus.OK);
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured({"ROLE_ADMIN", "permitAll"})
     @PostMapping("/empleados")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity create(@Valid @RequestBody Empleado empleado, BindingResult result) {
@@ -81,7 +81,7 @@ public class EmpleadoController {
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
     }
 
-    @Secured({"ROLE_EMPLEADO", "ROLE_ADMIN"})
+    @Secured({"ROLE_EMPLEADO", "ROLE_ADMIN", "permitAll"})
     @PutMapping("/empleados/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity update(@Valid @RequestBody Empleado empleado, BindingResult result, @PathVariable Integer id) {
@@ -110,6 +110,7 @@ public class EmpleadoController {
             empleadoActual.setEstadoVacunacion(empleado.getEstadoVacunacion());
             empleadoActual.setTipoVacuna(empleado.getTipoVacuna());
             empleadoActual.setNumeroDosis(empleado.getNumeroDosis());
+            empleadoActual.setFechaVacunacion(empleado.getFechaVacunacion());
             empleadoService.save(empleadoActual);
 
         } catch (DataAccessException e) {
@@ -137,7 +138,7 @@ public class EmpleadoController {
                 .collect(Collectors.toList());
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured({"ROLE_ADMIN", "permitAll"})
     @DeleteMapping("/empleados/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity delete(@PathVariable Integer id) {
